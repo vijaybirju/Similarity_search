@@ -4,12 +4,11 @@ import nltk
 import string
 import joblib
 import logging
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
 import numpy as np
-# from yaml import safe_load
 import pandas as pd
 from pathlib import Path
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
 from src.logger import create_log_path, CustomLogger
 
 
@@ -42,11 +41,6 @@ def get_nlp_tools():
 
 # Nlp resources
 sw, lemmatizer = get_nlp_tools()
-
-
-def save_transformer(path,object):
-    joblib.dump(value=object,
-                filename=path)
     
 
 def drop_duplicates(dataframe: pd.DataFrame, subset: list = None) -> pd.DataFrame:
@@ -118,13 +112,8 @@ def read_dataframe(path:Path):
 
 def save_dataframe(dataframe:pd.DataFrame,save_path:Path):
     dataframe.to_csv(save_path,index=False)
-    preprocessing_logger.save_logs(f"Saved dataframe: {dataframe} at {save_path}")
+    preprocessing_logger.save_logs(f"Saved dataframe at {save_path}")
 
-
-# def lemmatize(dataframe:pd.DataFrame) -> pd.DataFrame:
-#   dataframe['text1']=dataframe['text1'].apply(lambda x: [lemmatizer.lemmatize(item) for item in x])
-#   dataframe['text2']=dataframe['text2'].apply(lambda x: [lemmatizer.lemmatize(item) for item in x])
-#   return dataframe
 
 def main():
    # current file path
