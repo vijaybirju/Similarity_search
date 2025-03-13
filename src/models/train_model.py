@@ -3,10 +3,11 @@ import sys
 import logging
 import pandas as pd
 from pathlib import Path
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from typing import List
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from src.logger import create_log_path, CustomLogger
-from typing import List, Tuple
+
 
 ## Logging
 # Set logging path
@@ -22,15 +23,6 @@ def load_dataframe(path):
     df = pd.read_csv(path)
     return df
 
-# def count_vcr(dataframe: pd.DataFrame) -> List[float]:
-#     """Calculate cosine similarity using CountVectorizer."""
-#     similarity = []
-#     for _, row in dataframe.iterrows():
-#         docs = (row['text1'], row['text2'])
-#         matrix = CountVectorizer().fit_transform(docs)
-#         cosine_sim = cosine_similarity(matrix[0], matrix[1])[0][0]
-#         similarity.append(cosine_sim)
-#     return similarity
 
 def similarity_fn(dataframe: pd.DataFrame, tfidf_vectorizer: TfidfVectorizer) -> List[float]:
     """Calculate cosine similarity using TF-IDF."""
