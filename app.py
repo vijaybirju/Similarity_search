@@ -4,6 +4,7 @@ from pathlib import Path
 from pydantic import BaseModel
 from fastapi import FastAPI
 from sklearn.metrics.pairwise import cosine_similarity
+from src.models.predict_model import preprocess_text_dataframe, normalize_text_dataframe
 
 # Initializie the app
 
@@ -30,7 +31,13 @@ def home():
 def get_similarity_score(request:PredictionRequest):
     try:
         # convert the text to tf-idf vectors
-        tfidf_matrix = tfidf_vectorizer_model.transform([request.text1,request.text2])
+        data = {
+            'text1':request.text1,
+            'text2':request.text2
+        }
+        df = preprocess_text_dataframe(data)
+        df = normalize_text_dataframe(df)
+        tfidf_matrix = tfidf_vectorizer_model.transform([df.text1[0],df.text2[0]])
 
         # compute similarity
         similarity_score = cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])[0][0]
