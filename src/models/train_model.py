@@ -106,7 +106,7 @@ def similarity_fn(dataframe: pd.DataFrame, model: SentenceTransformer) -> List[f
 
 def train_model() -> SentenceTransformer:
     """Load a pre-trained Sentence Transformer model."""
-    model = SentenceTransformer("all-MiniLM-L6-v2")  # ✅ Using a lightweight BERT model
+    model = SentenceTransformer("paraphrase-MiniLM-L3-v2")  # ✅ Using a lightweight BERT model
     training_logger.save_logs("Loaded pre-trained Sentence Transformer: all-MiniLM-L6-v2")
     return model
 
