@@ -37,15 +37,16 @@ def normalize_text_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     :param df: Input DataFrame with 'text1' and 'text2' columns.
     :return: Normalized DataFrame.
     """
-    predict_logger.save_logs(msg=f'Data before lemmatize text1: {df.loc[0, 'text1'][:100]}, text2: {df.loc[0, 'text2'][:100]}')
+
+    predict_logger.save_logs(msg=f"Data before lemmatize text1: {df.loc[0, 'text1'][:100]}, text2: {df.loc[0, 'text2'][:100]}")
     df = lemmatize(df)
-    predict_logger.save_logs(msg=f'Data after lemmatize load text1: {df.loc[0, 'text1'][:100]}, text2: {df.loc[0, 'text2'][:100]}')
+    predict_logger.save_logs(msg=f"Data after lemmatize load text1: {df.loc[0, 'text1'][:100]}, text2: {df.loc[0, 'text2'][:100]}")
     df = remove_empty_tokens(df)
-    predict_logger.save_logs(msg=f'token has been removed')
+    predict_logger.save_logs(msg="Token has been removed")
     df = remove_single_letters(df)
-    predict_logger.save_logs(msg=f'single letters has been removed')
+    predict_logger.save_logs(msg="Single letters have been removed")
     df = detoken(df)
-    predict_logger.save_logs(msg=f'detoken has been done')
+    predict_logger.save_logs(msg="Detokenization has been done")
     df = remove_extra_spaces(df)
-    predict_logger.save_logs(msg=f'extra spaces has been removed')
+    predict_logger.save_logs(msg="Extra spaces have been removed")
     return df
