@@ -37,7 +37,7 @@ def similarity_fn(dataframe: pd.DataFrame, tfidf_vectorizer: TfidfVectorizer) ->
 
 def train_tfidf(data: pd.DataFrame) -> TfidfVectorizer:
     """Train TF-IDF on both text1 and text2."""
-    tfidf_vectorizer = TfidfVectorizer()
+    tfidf_vectorizer = TfidfVectorizer(ngram_range=(1, 2))
     combined_texts = data["text1"].tolist() + data["text2"].tolist()
     tfidf_vectorizer.fit(combined_texts)  # ✅ Train on both columns
     training_logger.save_logs('Trained TF-IDF on text1 & text2')
