@@ -4,6 +4,7 @@ from pathlib import Path
 from pydantic import BaseModel
 from fastapi import FastAPI
 from sklearn.metrics.pairwise import cosine_similarity
+from sentence_transformers import SentenceTransformer
 from src.models.predict_model import preprocess_text_dataframe, normalize_text_dataframe
 
 # Initializie the app
@@ -13,9 +14,9 @@ app = FastAPI()
 # load the model
 current_path = Path(__file__)
 root_path = current_path.parent
-mode_name  = 'tf-idf.joblib'
+mode_name  = 'sentence_transformer'
 model_path = root_path / 'models' /'models' / mode_name
-tfidf_vectorizer_model = joblib.load(model_path)
+model = SentenceTransformer(str(model_path))
 
 
 # define the request model
@@ -37,10 +38,11 @@ def get_similarity_score(request:PredictionRequest):
         }
         df = preprocess_text_dataframe(data)
         df = normalize_text_dataframe(df)
-        tfidf_matrix = tfidf_vectorizer_model.transform([df.text1[0],df.text2[0]])
+        # Compute sentence embeddings
+        embeddings = model.encode([df.text1[0], df.text2[0]])
 
-        # compute similarity
-        similarity_score = cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])[0][0]
+        # Compute cosine similarity
+        similarity_score = float(cosine_similarity([embeddings[0]], [embeddings[1]])[0][0])
 
         return {
             'text1':request.text1,
