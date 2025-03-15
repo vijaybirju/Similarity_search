@@ -17,7 +17,7 @@ def preprocess_text_dataframe(data: dict) -> pd.DataFrame:
     :param df: Input DataFrame with 'text1' and 'text2' columns.
     :return: Processed DataFrame.
     """
-    predict_logger.save_logs(msg=f'Data has come Keys: {list(data.keys()) if isinstance(data, dict) else 'N/A'}')
+    predict_logger.save_logs(msg=f'Data has come')
     df = pd.DataFrame([data])
     predict_logger.save_logs(msg=f'Data has been load')
     df = drop_duplicates(df)
