@@ -1,5 +1,5 @@
 {
-  "_name_or_path": "sentence-transformers/all-MiniLM-L6-v2",
+  "_name_or_path": "sentence-transformers/paraphrase-MiniLM-L3-v2",
   "architectures": [
     "BertModel"
   ],
@@ -15,7 +15,7 @@
   "max_position_embeddings": 512,
   "model_type": "bert",
   "num_attention_heads": 12,
-  "num_hidden_layers": 6,
+  "num_hidden_layers": 3,
   "pad_token_id": 0,
   "position_embedding_type": "absolute",
   "torch_dtype": "float32",
