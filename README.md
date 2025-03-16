@@ -1,57 +1,124 @@
-similarity search
-==============================
+# **Semantic Similarity Search**  
 
-NLP assignment Dataneuron
+A Natural Language Processing (NLP) project to quantify the degree of similarity between two text paragraphs using **TF-IDF + Cosine Similarity** and **Sentence-Transformer embeddings**. The project provides a scalable API that computes semantic similarity scores efficiently.  
 
-Project Organization
-------------
+## **Table of Contents**  
+- [Overview](#overview)  
+- [Features](#features)  
+- [Installation](#installation)  
+- [Usage](#usage)  
+- [Project Structure](#project-structure)  
+- [Technologies Used](#technologies-used)  
+- [Contributing](#contributing)  
+- [License](#license)  
 
-    ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
-    ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
-    │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
-    │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+## **Overview**  
+
+This project implements **semantic similarity scoring** between text pairs using two methods:  
+
+1. **TF-IDF + Cosine Similarity:** A statistical approach that converts text into numerical vectors based on word importance and measures similarity using cosine distance.  
+2. **Sentence-Transformers:** A deep learning-based approach that generates dense vector representations of sentences, capturing contextual meaning.  
+
+The project includes a **FastAPI-based server** that exposes an API endpoint to compute similarity scores dynamically. The model is deployed on **Render** using Hugging Face inference for transformer-based scoring.  
+
+---
+
+## **Features**  
+
+✅ Computes similarity between text pairs using **two different approaches**  
+✅ REST API for real-time similarity computation  
+✅ Lightweight **TF-IDF** method for quick scoring  
+✅ **Sentence-Transformers** for deep semantic understanding  
+✅ Scalable deployment using **Render & FastAPI**  
+
+---
+
+## **Installation**  
+
+### **1. Clone the Repository**  
+```bash
+git clone https://github.com/yourusername/similarity-search.git
+cd similarity-search
+```
+
+## 2. Create a Virtual Environment & Install Dependencies
+```bash
+python3 -m venv venv
+source venv/bin/activate   # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+## Usage
+1. Run the API Server
+```bash
+uvicorn src.api:app --host 0.0.0.0 --port 8000
+```
+
+2. API Request Example \
+POST /prediction \
+Computes the similarity between two input texts.
+Request:
+```bash
+{
+  "text1": "nuclear body seeks new tech .......",
+  "text2": "terror suspects face arrest ........"
+}
+```
+Response:
+```bash
+{
+    "text1": "broadband access expands",
+    "text2": "broadband is growing",
+    "similarity score": 0.7656
+}
+```
 
 
---------
+## Semantic Text Similarity API
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+This project implements a **text similarity prediction API** using **TF-IDF** and **Hugging Face Sentence Transformers**. The API is built with **FastAPI** and deployed on a cloud service. It computes the similarity between two text paragraphs and returns a score between **0 (dissimilar)** and **1 (highly similar).**
+
+## Features
+- Preprocessing text data using **TF-IDF**.
+- Utilizing **Hugging Face Sentence Transformers** for embeddings.
+- Computing similarity using **cosine similarity**.
+- FastAPI-based REST API for real-time inference.
+- Cloud deployment for scalable access.
+
+---
+
+
+## Project Structure
+```bash
+similarity-search/
+│── data/                # Raw, processed, and external data
+│── docs/                # Documentation files
+│── models/              # Trained models
+│── notebooks/           # Jupyter notebooks for EDA and experimentation
+│── reports/             # Analysis reports and visualizations
+│── src/                 # Source code for the project
+│   ├── data/            # Data processing scripts
+│   ├── features/        # Feature engineering scripts
+│   ├── models/          # Training and inference scripts
+│   ├── visualization/   # Data visualization scripts
+│   ├── api.py           # FastAPI-based API server
+│── requirements.txt     # Python dependencies
+│── setup.py             # Setup script for packaging
+│── README.md            # Project documentation
+```
+
+## Technologies Used
+* Python (FastAPI, Scikit-learn, Transformers, Uvicorn)
+* NLP Models (TF-IDF, Sentence-Transformers)
+* Deployment (Render, Hugging Face Inference API)
+
+
+
+
+## Contributing
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+## License
+This project is licensed under the MIT License.
+
+
