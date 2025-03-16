@@ -15,4 +15,4 @@ fastapi
 nltk
 uvicorn
 pydantic
-sentence-transformers
+gunicorn

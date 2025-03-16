@@ -2,14 +2,19 @@ import os
 import time
 import requests
 import uvicorn
+import logging
 from pathlib import Path
 from pydantic import BaseModel
 from fastapi import FastAPI
 from sklearn.metrics.pairwise import cosine_similarity
-from sentence_transformers import SentenceTransformer
 from src.models.predict_model import preprocess_text_dataframe, normalize_text_dataframe
 from dotenv import load_dotenv
+from src.logger import create_log_path, CustomLogger
 
+## Logging
+log_file_path = create_log_path('App_logger')
+App_logger = CustomLogger(logger_name='App_logger', log_filename=log_file_path)
+App_logger.set_log_level(level=logging.INFO)
 load_dotenv()
 
 API_URL = os.getenv("API_URL")
@@ -69,6 +74,6 @@ def query(payload, retries=3, delay=5):
     raise ValueError(f"API Error: {response.status_code}, {response.text}")
 	
 
-# Run FastAPI server
-if __name__ == "__main__":
-    uvicorn.run(app="app:app", host="0.0.0.0", port=8000)
+# # Run FastAPI server
+# if __name__ == "__main__":
+#     uvicorn.run(app="app:app", host="0.0.0.0", port=8000)
