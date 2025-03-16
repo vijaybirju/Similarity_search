@@ -1,4 +1,5 @@
-import joblib
+import os
+import requests
 import uvicorn
 from pathlib import Path
 from pydantic import BaseModel
@@ -6,18 +7,18 @@ from fastapi import FastAPI
 from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
 from src.models.predict_model import preprocess_text_dataframe, normalize_text_dataframe
+from dotenv import load_dotenv
+
+load_dotenv()
+
+API_URL = os.getenv("API_URL")
+api_key = os.getenv("HF_API_KEY")
 
 # Initializie the app
 
 app = FastAPI()
 
-# load the model
-current_path = Path(__file__)
-root_path = current_path.parent
-mode_name  = 'sentence_transformer'
-model_path = root_path / 'models' /'models' / mode_name
-model = SentenceTransformer(str(model_path))
-
+headers = {"Authorization": f"Bearer {api_key}"}
 
 # define the request model
 class PredictionRequest(BaseModel):
@@ -27,6 +28,7 @@ class PredictionRequest(BaseModel):
 @app.get('/')
 def home():
     return 'Welocme to the text Similarity prediction API'
+
 
 @app.post('/prediction')
 def get_similarity_score(request:PredictionRequest):
@@ -39,10 +41,14 @@ def get_similarity_score(request:PredictionRequest):
         df = preprocess_text_dataframe(data)
         df = normalize_text_dataframe(df)
         # Compute sentence embeddings
-        embeddings = model.encode([df.text1[0], df.text2[0]])
+        similarity_score = query({
+            "inputs": {
+            "source_sentence": df["text1"].iloc[0],
+            "sentences": [df["text2"].iloc[0]]
+        },
+        })
 
-        # Compute cosine similarity
-        similarity_score = float(cosine_similarity([embeddings[0]], [embeddings[1]])[0][0])
+        similarity_score = similarity_score[0]
 
         return {
             'text1':request.text1,
@@ -52,6 +58,12 @@ def get_similarity_score(request:PredictionRequest):
     except Exception as e:
         return {"error": str(e)}
 
+def query(payload):
+    response = requests.post(API_URL, headers=headers, json=payload)
+    if response.status_code != 200:
+        raise ValueError(f"API Error: {response.status_code}, {response.text}")
+    return response.json()
+	
 
 # Run FastAPI server
 if __name__ == "__main__":
