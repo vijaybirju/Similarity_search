@@ -37,7 +37,7 @@ The project includes a **FastAPI-based server** that exposes an API endpoint to 
 
 ### **1. Clone the Repository**  
 ```bash
-git clone https://github.com/yourusername/similarity-search.git
+git clone https://github.com/vijaybirju/similarity-search.git
 cd similarity-search
 ```
 
