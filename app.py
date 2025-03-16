@@ -1,4 +1,5 @@
 import os
+import time
 import requests
 import uvicorn
 from pathlib import Path
@@ -58,11 +59,14 @@ def get_similarity_score(request:PredictionRequest):
     except Exception as e:
         return {"error": str(e)}
 
-def query(payload):
-    response = requests.post(API_URL, headers=headers, json=payload)
-    if response.status_code != 200:
-        raise ValueError(f"API Error: {response.status_code}, {response.text}")
-    return response.json()
+
+def query(payload, retries=3, delay=5):
+    for i in range(retries):
+        response = requests.post(API_URL, headers=headers, json=payload)
+        if response.status_code == 200:
+            return response.json()
+        time.sleep(delay)  # Wait before retrying
+    raise ValueError(f"API Error: {response.status_code}, {response.text}")
 	
 
 # Run FastAPI server
