@@ -26,6 +26,15 @@ app = FastAPI()
 
 headers = {"Authorization": f"Bearer {api_key}"}
 
+
+def query(payload, retries=2, delay=5):
+    for i in range(retries):
+        response = requests.post(API_URL, headers=headers, json=payload)
+        if response.status_code == 200:
+            return response.json()
+        time.sleep(delay)  # Wait before retrying
+    raise ValueError(f"API Error: {response.status_code}, {response.text}")
+
 # define the request model
 class PredictionRequest(BaseModel):
     text1:str
@@ -65,13 +74,6 @@ def get_similarity_score(request:PredictionRequest):
         return {"error": str(e)}
 
 
-def query(payload, retries=3, delay=5):
-    for i in range(retries):
-        response = requests.post(API_URL, headers=headers, json=payload)
-        if response.status_code == 200:
-            return response.json()
-        time.sleep(delay)  # Wait before retrying
-    raise ValueError(f"API Error: {response.status_code}, {response.text}")
 	
 
 # Run FastAPI server
