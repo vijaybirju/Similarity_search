@@ -16,7 +16,8 @@ log_file_path = create_log_path('App_logger')
 App_logger = CustomLogger(logger_name='App_logger', log_filename=log_file_path)
 App_logger.set_log_level(level=logging.INFO)
 load_dotenv()
-
+print(os.getenv("API_URL"))
+print(os.getenv("HF_API_KEY"))
 API_URL = os.getenv("API_URL")
 api_key = os.getenv("HF_API_KEY")
 
@@ -24,7 +25,9 @@ api_key = os.getenv("HF_API_KEY")
 
 app = FastAPI()
 
-headers = {"Authorization": f"Bearer {api_key}"}
+headers = {
+    "User-Agent": "Mozilla/5.0",
+    "Authorization": f"Bearer {api_key}"}
 
 
 def query(payload, retries=2, delay=5):
