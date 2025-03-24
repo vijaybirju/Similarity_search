@@ -1,5 +1,7 @@
 # **Semantic Similarity Search**  
 
+End point: https://similarity-search-imb1.onrender.com/prediction
+
 A Natural Language Processing (NLP) project to quantify the degree of similarity between two text paragraphs using **TF-IDF + Cosine Similarity** and **Sentence-Transformer embeddings**. The project provides a scalable API that computes semantic similarity scores efficiently.  
 
 ## **Table of Contents**  
