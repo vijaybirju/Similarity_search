@@ -62,8 +62,8 @@ Computes the similarity between two input texts.
 Request:
 ```bash
 {
-  "text1": "nuclear body seeks new tech .......",
-  "text2": "terror suspects face arrest ........"
+    "text1": "broadband access expands",
+    "text2": "broadband is growing",
 }
 ```
 Response:
